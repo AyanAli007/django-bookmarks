@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}{{ image.title }}{% endblock %}
+
+{% block content %}
+  <h1>{{ image.title }}</h1>
+
+  <div class="image-detail">
+    <a href="{{ image.url }}">
+      <img src="{% thumbnail image.image 300x0 %}" class="image-detail" alt="{{ image.title }}"
+           style="max-width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-lg);">
+    </a>
+  </div>
+
+  <div class="image-info" style="margin-top: 1.5rem;">
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+      <span class="count" style="font-size: 1.1rem; font-weight: 600; color: var(--text-heading);">
+        <span id="like-count">{{ total_likes }}</span> like{{ total_likes|pluralize }}
+      </span>
+      <button id="like-button"
+              data-id="{{ image.id }}"
+              data-action="{% if request.user in users_like %}unlike{% else %}like{% endif %}"
+              class="button">
+        {% if request.user in users_like %}Unlike{% else %}Like{% endif %}
+      </button>
+    </div>
+
+    {% if image.description %}
+      <p style="color: var(--text-secondary); line-height: 1.7;">{{ image.description }}</p>
+    {% endif %}
+
+    <p style="color: var(--text-muted); font-size: 0.85rem;">
+      Bookmarked by
+      <strong style="color: var(--text-primary);">{{ image.user.get_full_name|default:image.user.username }}</strong>
+      on {{ image.created|date:"M d, Y" }}
+    </p>
+  </div>
+
+  <script>
+    const likeButton = document.getElementById('like-button');
+    const likeCount = document.getElementById('like-count');
+    const url = '{% url "images:like" %}';
+
+    likeButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('id', likeButton.dataset.id);
+      formData.append('action', likeButton.dataset.action);
+
+      fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data['status'] === 'ok') {
+          const previousAction = likeButton.dataset.action;
+
+          // toggle button
+          if (previousAction === 'like') {
+            likeButton.dataset.action = 'unlike';
+            likeButton.textContent = 'Unlike';
+            likeCount.textContent = parseInt(likeCount.textContent) + 1;
+          } else {
+            likeButton.dataset.action = 'like';
+            likeButton.textContent = 'Like';
+            likeCount.textContent = parseInt(likeCount.textContent) - 1;
+          }
+        }
+      });
+    });
+  </script>
+{% endblock %}

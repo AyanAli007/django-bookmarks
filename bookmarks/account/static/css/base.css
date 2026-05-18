@@ -751,3 +751,97 @@ ul.messages li.warning::before { content: '⚡'; }
     background: var(--primary);
     color: white;
 }
+
+/* --- Image Detail Page --- */
+.image-detail {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition-base);
+}
+
+.image-detail:hover {
+    transform: scale(1.01);
+}
+
+.image-info {
+    margin-top: 1.5rem;
+}
+
+/* Like Button */
+#like-button {
+    background: linear-gradient(135deg, #ec4899, #f43f5e);
+    color: #fff;
+    border: none;
+    padding: 0.55rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-family: inherit;
+    box-shadow: 0 2px 8px rgba(244, 63, 94, 0.3);
+}
+
+#like-button:hover {
+    background: linear-gradient(135deg, #f43f5e, #ec4899);
+    box-shadow: 0 4px 16px rgba(244, 63, 94, 0.4);
+    transform: translateY(-1px);
+}
+
+#like-button[data-action="unlike"] {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+#like-button[data-action="unlike"]:hover {
+    border-color: rgba(244, 63, 94, 0.4);
+    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.15);
+}
+
+/* --- Image List Grid --- */
+.image-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.image-list .image-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.6));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-slow);
+}
+
+.image-list .image-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25), 0 0 20px var(--primary-glow);
+}
+
+.image-list .image-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.image-list .image-card .info {
+    padding: 1rem 1.25rem;
+}
+
+.image-list .image-card .info a {
+    font-weight: 600;
+    color: var(--text-heading);
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.image-list .image-card .info .meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
