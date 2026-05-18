@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <h1>Dashboard</h1>
+  <p>Welcome to your dashboard. Use the options below to manage your account.</p>
+
+  <div class="dashboard-actions">
+      <div class="action-card">
+          <span class="card-icon">✏️</span>
+          <a href="{% url 'edit' %}">Edit Profile</a>
+          <p>Update your personal details and photo.</p>
+      </div>
+      
+      <div class="action-card">
+          <span class="card-icon">🔒</span>
+          <a href="{% url 'password_change' %}">Change Password</a>
+          <p>Keep your account secure with a strong password.</p>
+      </div>
+
+      <div class="action-card">
+          <span class="card-icon">🚪</span>
+          <form action="{% url 'logout' %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <a href="#" onclick="this.closest('form').submit(); return false;">Log Out</a>
+          </form>
+          <p>Sign out of your account safely.</p>
+      </div>
+  </div>
+{% endblock %}
